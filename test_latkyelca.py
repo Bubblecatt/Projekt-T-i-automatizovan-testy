@@ -69,3 +69,21 @@ def test_pridani_vice_kusu_s_omezenim_a_kontrolou_hlasky(page: Page):
             print("Hláška o omezení byla správně zachycena.")
         else:
             print("Byl zaznamenán limit, ale nezobrazila se žádná hláška – to může být očekávané chování.")
+
+from playwright.sync_api import Page, expect
+
+def test_title_is_correct(page: Page):
+    page.goto("https://www.latkyelca.cz")
+    expect(page).to_have_title("Látky Elča - široký výběr látek a galanterních potřeb pro vaše projekty")
+
+
+import pytest
+from playwright.sync_api import Page, expect
+
+def test_cookie_accept_hides_banner(page: Page):
+    page.goto("https://www.latkyelca.cz")
+    consent = page.locator("text=Souhlasím")
+    expect(consent).to_be_visible()
+    consent.click()
+    expect(consent).not_to_be_visible()
+
